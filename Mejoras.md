@@ -64,3 +64,33 @@ Esto nos permite empezar con `apt` y extender sin romper compatibilidad.
 
 Vamos a partir con un diseño de módulo `package.sh` con soporte inicial para `.deb` y detección de gestor. 
 Luego vamos a definir cómo se maneja la idempotencia (por ejemplo, verificar si el paquete ya está instalado antes de ejecutar).
+
+
+---
+
+Ampliamos estructura directorios de `core`
+
+```bash
+...
+├── core/
+│   ├── modules/               # Módulos oficiales del núcleo
+│   ├── examples/              # Playbooks YAML de ejemplo
+│   ├── docs/                  # Documentación técnica y de uso
+│   ├── templates/             # Archivos base para módulos, config, etc.
+│   └── utils/                 # Funciones comunes (logging, validación, etc.)
+...
+```
+
+Contenido de estos nuevos directorios:
+* examples/: ayuda a nuevos usuarios a entender cómo escribir playbooks. Ideal para incluir casos reales y edge cases.
+* docs/: guía de instalación, uso, desarrollo de módulos, estructura YAML, convenciones, etc.
+* templates/: base para crear nuevos módulos (module_template.sh), encabezados estándar, ejemplos de documentación.
+* utils/: funciones compartidas como detect_package_manager, log_info, log_error, validación de argumentos, etc.
+
+directorios extras....
+
+* tests/: para pruebas unitarias o de integración de módulos
+* assets/: si en algún momento incluimos imágenes, diagramas o logos
+* config/: para definir variables globales, rutas, o comportamiento por defecto
+
+
