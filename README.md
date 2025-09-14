@@ -82,19 +82,27 @@ Además de poder crear o incorporar módulos como opción clave para que otros u
 
 ### Estructura propuesta
 
+
 ```bash
 bashflow/
 ├── core/
-│   ├── modules/
-│   │   ├── run.sh          # Ejecutar comandos remotos
-│   │   ├── copy.sh         # Copiar archivos
-│   │   └── service.sh      # Control de servicios
-├── user_modules/           # Módulos personalizados del usuario
+│   ├── modules/               # Módulos oficiales del núcleo
+│   ├── examples/              # Playbooks YAML de ejemplo
+│   ├── docs/                  # Documentación técnica y de uso
+│   ├── templates/             # Archivos base para módulos, config, etc.
+│   └── utils/                 # Funciones comunes (logging, validación, etc.)
+├── user_modules/              # Módulos personalizados del usuario
 │   └── my_custom_module.sh
-├── community_modules/    # Módulos externos (comunidad)
+├── community_modules/         # Módulos compartidos por la comunidad
 │   └── awesome_module.sh
-└── bashflow.sh             # Script principal
+├── bashflow.sh                # Script controlador principal
+├── bashflow-doc.sh            # Generador de documentación
+├── bashflow-check.sh          # Verificador de entorno y dependencias
+└── README.md                  # Introducción al proyecto
+
 ```
+
+
 
 ### Convención para módulos
 
