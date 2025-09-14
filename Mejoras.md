@@ -21,6 +21,13 @@ Hay que consolidar el núcleo con más módulos y definir cómo se estructuran p
 | `template` | Copiar archivos con sustitución de variables          | 🔧 Por hacer    | Variables globales |
 | `hostname` | Configurar nombre del host                             | 🔧 Por hacer    | Validación       |
 | `sysctl`   | Ajustar parámetros del kernel                          | 🔧 Por hacer    | Persistencia     |
+| `archive`  | Archivado (tar, cpio)                                  | 🔧 Por hacer    | --      |
+| `openssl / cert`| Gestion de openssl y certificados                 | 🔧 Por hacer    | --     |
+| `zip`   | Compresión y descompresión de ficheros  (zip, gzip, bzip) | 🔧 Por hacer    | --     |
+
+Otros:
+- fw
+- 
 
 ---
 
