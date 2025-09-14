@@ -27,7 +27,7 @@ Hay que consolidar el núcleo con más módulos y definir cómo se estructuran p
 
 Otros:
 - fw
-- 
+- ...
 
 ---
 
@@ -100,4 +100,67 @@ directorios extras....
 * assets/: si en algún momento incluimos imágenes, diagramas o logos
 * config/: para definir variables globales, rutas, o comportamiento por defecto
 
+---
 
+## VAULT
+
+Incluir un vault
+
+Un **vault** es esencial para BashFlow si queremos manejar secretos, credenciales, tokens o configuraciones sensibles de forma segura y reutilizable. 
+
+Vamos a diseñarlo con la filosofía BashFlow: **simple, shell-native, extensible, y compatible con YAML**.
+
+---
+
+## 🧠 Objetivo del Vault
+
+- 🔐 Almacenar secretos cifrados localmente (tokens, claves, contraseñas)
+- 📦 Acceder a valores desde módulos y playbooks
+- 🧾 Integrarse con YAML sin exponer valores en texto plano
+- 🛡️ Usar cifrado simétrico (`gpg`, `openssl`) o backends externos (más adelante)
+
+
+## 📁 Estructura propuesta
+
+```bash
+bashflow/
+├── core/
+│   ├── vault/                  # Archivos cifrados y utilidades
+│   └── utils/                  # Funciones comunes (decrypt, validate)
+├── vault.sh                    # CLI para gestionar el vault
+```
+
+---
+
+## 🔧 Implementación inicial: `vault.sh`
+
+
+
+## 🧾 Uso desde YAML
+
+```yaml
+tasks:
+  - name: Usar token privado
+    module: run
+    args:
+      command: "echo $(vault.sh get api_token)"
+      become: false
+```
+
+> ⚠️ En producción, se recomienda que los módulos accedan al vault vía función en `utils/` para evitar exposición directa.
+
+---
+
+## 🧩 Evolución futura
+
+- Soporte para `openssl` como alternativa a `gpg`
+- Vault por host o entorno (`vault/prod/`, `vault/dev/`)
+- Integración con `bashflow.sh` para inyección automática
+- Validación de existencia de claves antes de ejecutar tareas
+- Backend externo opcional (HashiCorp Vault, AWS Secrets Manager)
+
+---
+
+Preparar función en `utils/` para que los módulos puedan acceder al vault de forma segura (`get_secret "api_token"`)
+
+Definir cómo se inyectan secretos en tiempo de ejecución sin dejar trazas en logs. Esto ya está listo para proteger despliegues reales.
