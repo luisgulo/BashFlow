@@ -1,10 +1,20 @@
 #!/bin/bash
 # BashFlow Environment Checker
-# Author: Luis
-# Version: 0.1
+# Author: Luis GuLo
+# Version: 1.1
 
 MODULE_PATHS=("core/modules" "user_modules" "community_modules")
-GLOBAL_TOOLS=("yq" "ssh" "scp")
+GLOBAL_TOOLS=("bash" "ssh" "scp" "git" "curl" "jq" "yq" "gpg")
+REQUIRED_PATHS=(
+  "core/modules"
+  "core/utils"
+  "core/examples"
+  "core/docs"
+  "user_modules"
+  "community_modules"
+  "bashflow.sh"
+  "vault.sh"
+)
 
 check_global_tools() {
   echo "🔍 Verificando herramientas globales..."
@@ -15,6 +25,21 @@ check_global_tools() {
       missing=1
     else
       echo "✅ $tool disponible"
+    fi
+  done
+  return $missing
+}
+
+check_structure() {
+  echo ""
+  echo "📁 Verificando estructura de BashFlow..."
+  local missing=0
+  for path in "${REQUIRED_PATHS[@]}"; do
+    if [ ! -e "$path" ]; then
+      echo "❌ Falta: $path"
+      missing=1
+    else
+      echo "✅ Encontrado: $path"
     fi
   done
   return $missing
@@ -41,8 +66,11 @@ load_and_check_modules() {
 main() {
   echo "🧪 BashFlow Environment Check"
   echo "============================="
+
   check_global_tools
+  check_structure
   load_and_check_modules
+
   echo ""
   echo "✅ Verificación completada."
 }
