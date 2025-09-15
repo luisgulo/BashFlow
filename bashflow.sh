@@ -1,7 +1,7 @@
 #!/bin/bash
 # BashFlow Playbook Runner
 # Author: Luis GuLo
-# Version: 1.0
+# Version: 1.1
 
 set -e
 
@@ -12,9 +12,25 @@ PLAYBOOK=""
 HOST=""
 DEBUG=false
 
+get_version() {
+  local script_path="$(realpath "$0")"
+  local version_line
+  version_line=$(grep -E '^# Version:' "$script_path" | head -n1)
+  echo "${version_line/#\# Version:/BashFlow version:}"
+  echo "Ubicación: $script_path"
+}
+
+
 # ─────────────────────────────────────────────
 # 📦 Parsing de argumentos
 # ─────────────────────────────────────────────
+
+if [[ "$1" == "version" ]]; then
+  get_version
+  exit 0
+fi
+
+
 while [[ $# -gt 0 ]]; do
   case "$1" in
     -f|--file)
