@@ -2,18 +2,25 @@
 # Module: file
 # Description: Gestiona archivos y directorios remotos (crear, eliminar, permisos)
 # Author: Luis GuLo
-# Version: 1.0
+# Version: 1.1
 # Dependencies: ssh
 # Usage:
 #   file_task "$host" "$path" "$state" "$type" "$mode" "$become"
 
 file_task() {
-  local host="$1"
-  local path="$2"
-  local state="$3"     # present | absent
-  local type="$4"      # file | directory
-  local mode="$5"      # ej. 0644
-  local become="$6"
+  local host="$1"; shift
+  declare -A args
+  for arg in "$@"; do
+    key="${arg%%=*}"
+    value="${arg#*=}"
+    args["$key"]="$value"
+  done
+
+  local path="${args[path]}"
+  local state="${args[state]}"
+  local type="${args[type]}"
+  local mode="${args[mode]}"
+  local become="${args[become]}"
 
   local prefix=""
   [ "$become" = "true" ] && prefix="sudo"

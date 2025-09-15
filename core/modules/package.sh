@@ -1,25 +1,25 @@
 #!/bin/bash
 # Module: package
-# Description: Instala, actualiza o elimina paquetes usando apt (soporte inicial para .deb)
+# Description: Gestiona paquetes .deb en sistemas basados en APT
 # Author: Luis GuLo
-# Version: 0.1
+# Version: 1.1
 # Dependencies: ssh, apt
-# Usage:
-#   package_task "$host" "$name" "$state" "$become"
 
 package_task() {
-  local host="$1"
-  local name="$2"
-  local state="$3"
-  local become="$4"
+  local host="$1"; shift
+  declare -A args; for arg in "$@"; do key="${arg%%=*}"; value="${arg#*=}"; args["$key"]="$value"; done
+
+  local name="${args[name]}"
+  local state="${args[state]}"
+  local become="${args[become]}"
 
   local prefix=""
   [ "$become" = "true" ] && prefix="sudo"
 
-  # Detectar si el paquete ya está instalado
-  local check_cmd="dpkg -s $name &> /dev/null"
-  local install_cmd="$prefix apt-get update && $prefix apt-get install -y $name"
-  local remove_cmd="$prefix apt-get remove -y $name"
+  local check_cmd="dpkg -s '$name' &> /dev/null"
+  local install_cmd="$prefix apt-get update && $prefix apt-get install -y '$name'"
+  local remove_cmd="$prefix apt-get remove -y '$name'"
+  local upgrade_cmd="$prefix apt-get update && $prefix apt-get install --only-upgrade -y '$name'"
 
   case "$state" in
     present)
@@ -29,7 +29,7 @@ package_task() {
       ssh "$host" "$check_cmd && $remove_cmd"
       ;;
     latest)
-      ssh "$host" "$check_cmd && $prefix apt-get update && $prefix apt-get install --only-upgrade -y $name || $install_cmd"
+      ssh "$host" "$check_cmd && $upgrade_cmd || $install_cmd"
       ;;
     *)
       echo "❌ [package] Estado '$state' no soportado."
@@ -45,7 +45,6 @@ check_dependencies_package() {
   fi
   echo "✅ [package] ssh disponible."
 
-  # Verificación local de apt (solo informativa)
   if ! command -v apt-get &> /dev/null; then
     echo "⚠️  [package] apt-get no disponible localmente. Se asumirá que existe en el host remoto."
   else

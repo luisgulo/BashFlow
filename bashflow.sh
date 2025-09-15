@@ -1,82 +1,106 @@
 #!/bin/bash
-# BashFlow Controller
+# BashFlow Playbook Runner
 # Author: Luis GuLo
-# Version: 0.1
+# Version: 1.0
 
 set -e
 
-# 📁 Rutas de módulos
-MODULE_PATHS=("core/modules" "user_modules" "community_modules")
+# ─────────────────────────────────────────────
+# 🔧 Configuración
+# ─────────────────────────────────────────────
+PLAYBOOK=""
+HOST=""
+DEBUG=false
 
-# 🔧 Cargar todos los módulos
-load_modules() {
-  for dir in "${MODULE_PATHS[@]}"; do
-    [ -d "$dir" ] || continue
-    for mod in "$dir"/*.sh; do
-      [ -f "$mod" ] && source "$mod"
-    done
-  done
-}
+# ─────────────────────────────────────────────
+# 📦 Parsing de argumentos
+# ─────────────────────────────────────────────
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -f|--file)
+      PLAYBOOK="$2"
+      shift 2
+      ;;
+    -h|--host)
+      HOST="$2"
+      shift 2
+      ;;
+    --debug)
+      DEBUG=true
+      shift
+      ;;
+    *)
+      echo "❌ Opción desconocida: $1"
+      exit 1
+      ;;
+  esac
+done
 
-# 🧪 Verificar dependencias globales
-check_global_dependencies() {
-  if ! command -v yq &> /dev/null; then
-    echo "❌ yq no está instalado. Instálalo para continuar."
-    exit 1
+# ─────────────────────────────────────────────
+# ✅ Validaciones iniciales
+# ─────────────────────────────────────────────
+if [ -z "$PLAYBOOK" ]; then
+  echo "❌ Playbook no especificado. Usa -f <archivo.yaml>"
+  exit 1
+fi
+
+if [ ! -f "$PLAYBOOK" ]; then
+  echo "❌ Playbook no encontrado: $PLAYBOOK"
+  exit 1
+fi
+
+if [ -z "$HOST" ]; then
+  echo "❌ Host remoto no especificado. Usa -h <usuario@host>"
+  exit 1
+fi
+
+# ─────────────────────────────────────────────
+# 📖 Cargar tareas desde YAML
+# ─────────────────────────────────────────────
+#TASKS_JSON=$(yq -o=json '.' "$PLAYBOOK" | jq '.tasks')
+TASKS_JSON=$(yq '.' "$PLAYBOOK" | jq '.tasks')
+
+if [ "$TASKS_JSON" == "null" ]; then
+  echo "❌ No se encontraron tareas en el playbook."
+  exit 1
+fi
+
+# ─────────────────────────────────────────────
+# 🔁 Ejecutar tareas
+# ─────────────────────────────────────────────
+NUM_TASKS=$(echo "$TASKS_JSON" | jq 'length')
+
+for ((i=0; i<NUM_TASKS; i++)); do
+  NAME=$(echo "$TASKS_JSON" | jq -r ".[$i].name")
+  MODULE=$(echo "$TASKS_JSON" | jq -r ".[$i].module")
+  ARGS=$(echo "$TASKS_JSON" | jq -c ".[$i].args")
+
+  echo "🔧 Ejecutando tarea: \"$NAME\" (módulo: \"$MODULE\")"
+
+  MODULE_PATH="core/modules/${MODULE}.sh"
+  if [ ! -f "$MODULE_PATH" ]; then
+    echo "❌ Módulo no encontrado: $MODULE_PATH"
+    continue
   fi
-}
 
-# 📦 Ejecutar tareas
-execute_tasks() {
-  local playbook="$1"
-  local hosts=($(yq '.hosts[]' "$playbook"))
-  local task_count=$(yq '.tasks | length' "$playbook")
+  source "$MODULE_PATH"
 
-  for ((i=0; i<task_count; i++)); do
-    local name=$(yq ".tasks[$i].name" "$playbook")
-    local module=$(yq ".tasks[$i].module" "$playbook")
-    local args=$(yq ".tasks[$i].args" "$playbook")
-
-    echo "🔧 Ejecutando tarea: $name (módulo: $module)"
-
-    for host in "${hosts[@]}"; do
-      echo "➡️  Host: $host"
-
-      case "$module" in
-        run)
-          local cmd=$(yq ".tasks[$i].args.command" "$playbook")
-          local become=$(yq ".tasks[$i].args.become" "$playbook")
-          run_task "$host" "$cmd" "$become"
-          ;;
-        copy)
-          local src=$(yq ".tasks[$i].args.src" "$playbook")
-          local dest=$(yq ".tasks[$i].args.dest" "$playbook")
-          local mode=$(yq ".tasks[$i].args.mode" "$playbook")
-          local become=$(yq ".tasks[$i].args.become" "$playbook")
-          copy_task "$host" "$src" "$dest" "$mode" "$become"
-          ;;
-        service)
-          local name=$(yq ".tasks[$i].args.name" "$playbook")
-          local action=$(yq ".tasks[$i].args.action" "$playbook")
-          local become=$(yq ".tasks[$i].args.become" "$playbook")
-          service_task "$host" "$name" "$action" "$become"
-          ;;
-        *)
-          echo "❌ Módulo '$module' no reconocido."
-          ;;
-      esac
-    done
+  # Extraer argumentos dinámicamente
+  ARG_KEYS=$(echo "$ARGS" | jq -r 'keys[]')
+  ARG_VALUES=()
+  for key in $ARG_KEYS; do
+    value=$(echo "$ARGS" | jq -r ".[\"$key\"]")
+    ARG_VALUES+=("${key}=${value}")
   done
-}
 
-# 🚀 Punto de entrada
-main() {
-  local playbook="$1"
-  [ -f "$playbook" ] || { echo "❌ Playbook no encontrado: $playbook"; exit 1; }
+  # Ejecutar función del módulo
+  if declare -f "${MODULE}_task" > /dev/null; then
+    "${MODULE}_task" "$HOST" "${ARG_VALUES[@]}"
+  elif declare -f "${MODULE}Task" > /dev/null; then
+    "${MODULE}Task" "$HOST" "${ARG_VALUES[@]}"
+  else
+    echo "❌ Función de ejecución no encontrada en módulo: $MODULE"
+  fi
 
-  check_global_dependencies
-  load_modules
-  execute_tasks "$playbook"
-}
-
-main "$@"
+  echo ""
+done

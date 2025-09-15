@@ -2,27 +2,31 @@
 # Module: copy
 # Description: Copia archivos locales al host remoto usando scp
 # Author: Luis GuLo
-# Version: 1.0
+# Version: 1.1
 # Dependencies: scp, ssh
-# Usage:
-#   copy_task "$host" "$src" "$dest" "$mode" "$become"
 
 copy_task() {
-  local host="$1"
-  local src="$2"
-  local dest="$3"
-  local mode="$4"
-  local become="$5"
+  local host="$1"; shift
+  declare -A args
+  for arg in "$@"; do
+    key="${arg%%=*}"
+    value="${arg#*=}"
+    args["$key"]="$value"
+  done
 
-  # Copiar archivo
+  local src="${args[src]}"
+  local dest="${args[dest]}"
+  local mode="${args[mode]}"
+  local become="${args[become]}"
+
+  local prefix=""
+  [ "$become" = "true" ] && prefix="sudo"
+
+  # Copiar archivo temporalmente
   scp "$src" "$host:/tmp/bashflow_tmpfile" || return 1
 
-  # Mover al destino final con permisos
-  if [ "$become" = "true" ]; then
-    ssh "$host" "sudo mv /tmp/bashflow_tmpfile '$dest' && sudo chmod $mode '$dest'"
-  else
-    ssh "$host" "mv /tmp/bashflow_tmpfile '$dest' && chmod $mode '$dest'"
-  fi
+  # Mover al destino final y aplicar permisos
+  ssh "$host" "$prefix mv /tmp/bashflow_tmpfile '$dest' && $prefix chmod $mode '$dest'"
 }
 
 check_dependencies_copy() {
