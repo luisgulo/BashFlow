@@ -8,36 +8,27 @@
 #   service_task "$host" "$name" "$action" "$become"
 
 service_task() {
-  local host="$1"
-  local name="$2"
-  local action="$3"
-  local become="$4"
+  local host="$1"; shift
+  declare -A args; for arg in "$@"; do key="${arg%%=*}"; value="${arg#*=}"; args["$key"]="$value"; done
+
+  local name="${args[name]}"
+  local state="${args[state]}"
+  local become="${args[become]}"
 
   local prefix=""
   [ "$become" = "true" ] && prefix="sudo"
 
-  case "$action" in
-    start)
-      ssh "$host" "$prefix systemctl is-active --quiet $name || $prefix systemctl start $name"
-      ;;
-    stop)
-      ssh "$host" "$prefix systemctl is-active --quiet $name && $prefix systemctl stop $name"
-      ;;
-    restart)
-      ssh "$host" "$prefix systemctl restart $name"
-      ;;
-    enable)
-      ssh "$host" "$prefix systemctl is-enabled --quiet $name || $prefix systemctl enable $name"
-      ;;
-    disable)
-      ssh "$host" "$prefix systemctl is-enabled --quiet $name && $prefix systemctl disable $name"
+  case "$state" in
+    start|stop|restart|enable|disable)
+      ssh "$host" "$prefix systemctl $state '$name'"
       ;;
     *)
-      echo "❌ [service] Acción '$action' no soportada."
+      echo "❌ [service] Estado '$state' no soportado."
       return 1
       ;;
   esac
 }
+
 
 check_dependencies_service() {
   if ! command -v ssh &> /dev/null; then

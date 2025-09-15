@@ -8,13 +8,15 @@
 #   git_task "$host" "$action" "$repo" "$dest" "$branch" "$file_path" "$become"
 
 git_task() {
-  local host="$1"
-  local action="$2"       # clone | pull | checkout | fetch-file
-  local repo="$3"
-  local dest="$4"
-  local branch="$5"
-  local file_path="$6"
-  local become="$7"
+  local host="$1"; shift
+  declare -A args; for arg in "$@"; do key="${arg%%=*}"; value="${arg#*=}"; args["$key"]="$value"; done
+
+  local action="${args[action]}"
+  local repo="${args[repo]}"
+  local dest="${args[dest]}"
+  local branch="${args[branch]}"
+  local file_path="${args[file_path]}"
+  local become="${args[become]}"
 
   local prefix=""
   [ "$become" = "true" ] && prefix="sudo"

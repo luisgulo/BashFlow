@@ -8,33 +8,34 @@
 #   docker_task "$host" "$action" "$name" "$image" "$cmd" "$dockerfile" "$context" "$become"
 
 docker_task() {
-  local host="$1"
-  local action="$2"       # present | absent | stopped | build | exec
-  local name="$3"
-  local image="$4"
-  local cmd="$5"
-  local dockerfile="$6"
-  local context="$7"
-  local become="$8"
+  local host="$1"; shift
+  declare -A args; for arg in "$@"; do key="${arg%%=*}"; value="${arg#*=}"; args["$key"]="$value"; done
+
+  local action="${args[action]}"
+  local name="${args[name]}"
+  local image="${args[image]}"
+  local path="${args[path]}"
+  local command="${args[command]}"
+  local become="${args[become]}"
 
   local prefix=""
   [ "$become" = "true" ] && prefix="sudo"
 
   case "$action" in
     present)
-      ssh "$host" "$prefix docker ps -a --format '{{.Names}}' | grep -w '$name' &> /dev/null || $prefix docker run -d --name '$name' '$image'"
+      ssh "$host" "$prefix docker ps -a --format '{{.Names}}' | grep -q '^$name$' || $prefix docker run -d --name '$name' '$image'"
       ;;
     stopped)
-      ssh "$host" "$prefix docker ps --format '{{.Names}}' | grep -w '$name' &> /dev/null && $prefix docker stop '$name'"
+      ssh "$host" "$prefix docker ps --format '{{.Names}}' | grep -q '^$name$' && $prefix docker stop '$name'"
       ;;
     absent)
-      ssh "$host" "$prefix docker ps -a --format '{{.Names}}' | grep -w '$name' &> /dev/null && $prefix docker rm -f '$name'"
+      ssh "$host" "$prefix docker ps -a --format '{{.Names}}' | grep -q '^$name$' && $prefix docker rm -f '$name'"
       ;;
     build)
-      ssh "$host" "$prefix docker image inspect '$image' &> /dev/null || $prefix docker build -t '$image' -f '$dockerfile' '$context'"
+      ssh "$host" "cd '$path' && $prefix docker build -t '$image' ."
       ;;
     exec)
-      ssh "$host" "$prefix docker ps --format '{{.Names}}' | grep -w '$name' &> /dev/null && $prefix docker exec '$name' $cmd"
+      ssh "$host" "$prefix docker exec '$name' $command"
       ;;
     *)
       echo "❌ [docker] Acción '$action' no soportada."
