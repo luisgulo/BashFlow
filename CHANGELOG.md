@@ -1,19 +1,59 @@
 # 📦 Changelog
 
-🇪🇸
-
-Todas las versiones importantes de BashFlow se documentarán aquí. 
+🇪🇸  Todas las versiones importantes de BashFlow se documentarán aquí. 
 
 Este proyecto sigue el formato [Keep a Changelog](https://keepachangelog.com/es/1.0.0/) y usa [versionado semántico](https://semver.org/lang/es/).
 
-🇬🇧
-
-All significant versions of BashFlow will be documented here.
+🇬🇧 All significant versions of BashFlow will be documented here.
 
 This project follows the [Keep a Changelog](https://keepachangelog.com/es/1.0.0/) format and uses [semantic versioning](https://semver.org/lang/es/).
 
 ---
 
+## 🔁 loop.sh — Versión 0.2
+
+### 🇪🇸 Mejoras implementadas
+
+- ✅ Soporte para bucles sobre pares `clave:valor`, con acceso a `{{item_key}}` y `{{item_value}}`
+- ✅ Implementación de bucle doble cartesiano (`items × secondary`) con `{{secondary_item}}`
+- ✅ Reemplazo dinámico de variables en argumentos: `{{item}}`, `{{item_key}}`, `{{item_value}}`, `{{secondary_item}}`
+- ⚠️ Nueva opción `fail_fast` para controlar si se detiene ante errores (`true`) o continúa (`false`)
+- 📌 Validación básica de argumentos obligatorios (`items`, `module`)
+- 🔁 Separación de lógica en función `run_module()` para facilitar extensibilidad
+- 📚 Documentación bilingüe actualizada con ejemplos YAML y casos avanzados
+
+### 🇬🇧 Improvements implemented
+
+- ✅ Support for key:value pair loops, with access to `{{item_key}}` and `{{item_value}}`
+- ✅ Cartesian double loop (`items × secondary`) with `{{secondary_item}}`
+- ✅ Dynamic variable replacement in arguments: `{{item}}`, `{{item_key}}`, `{{item_value}}`, `{{secondary_item}}`
+- ⚠️ New `fail_fast` option to control whether execution stops on error (`true`) or continues (`false`)
+- 📌 Basic validation of required arguments (`items`, `module`)
+- 🔁 Logic refactored into `run_module()` for easier extensibility
+- 📚 Bilingual documentation updated with YAML examples and advanced use cases
+
+---
+
+## 📚 Gestión de texto / Text Management — Versión 0.1
+
+### 🇪🇸 Nuevos módulos añadidos
+
+- 🧩 `replace.sh` — Reemplazo de texto mediante expresiones regulares (`regexp`) en archivos. Soporta copia de seguridad (`backup`) y ejecución con privilegios (`become`).
+- 🧩 `lineinfile.sh` — Inserta o reemplaza líneas específicas en archivos. Permite asegurar líneas únicas, insertar después de patrones y crear el archivo si no existe.
+- 🧩 `blockinfile.sh` — Inserta bloques de texto delimitados (`# BEGIN`, `# END`) en archivos. Reemplaza automáticamente si el bloque ya existe. Soporta marcador personalizado (`marker`) y copia de seguridad.
+- 🧩 `template.sh` — Genera archivos a partir de plantillas `.tmpl` ubicadas en `core/templates`, reemplazando variables `{{var}}`. Compatible con `become` y rutas absolutas.
+- 🧩 `loop.sh` (v0.2) — Ejecuta módulos en bucle sobre listas simples, pares `clave:valor` y combinaciones dobles (`items × secondary`). Incluye reemplazo dinámico (`{{item}}`, `{{item_key}}`, `{{item_value}}`, `{{secondary_item}}`) y opción `fail_fast`.
+
+### 🇬🇧 New modules added
+
+- 🧩 `replace.sh` — Text replacement using regular expressions (`regexp`) in files. Supports backup and privilege escalation (`become`).
+- 🧩 `lineinfile.sh` — Ensures or replaces specific lines in files. Allows inserting after patterns and creating the file if missing.
+- 🧩 `blockinfile.sh` — Inserts delimited text blocks (`# BEGIN`, `# END`) in files. Automatically replaces existing blocks. Supports custom markers and backup.
+- 🧩 `template.sh` — Generates files from `.tmpl` templates located in `core/templates`, replacing `{{var}}` placeholders. Supports `become` and absolute paths.
+- 🧩 `loop.sh` (v0.2) — Executes modules in loop over simple lists, `key:value` pairs, and double combinations (`items × secondary`). Includes dynamic replacement and `fail_fast` control.
+
+
+---
 
 ## [1.2.0] - 2025-09-16
 
@@ -81,6 +121,7 @@ This project follows the [Keep a Changelog](https://keepachangelog.com/es/1.0.0/
 - Removed relative paths in modules (`run.sh`, etc.) that failed outside project root
 - Environment prepared to consolidate `module-env.sh` as a shared route resolver
 
+---
 
 ## [v0.9.0-beta] - 2025-09-16
 
