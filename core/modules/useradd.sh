@@ -3,7 +3,7 @@
 # Description: Crea usuarios en el sistema con opciones personalizadas
 # Author: Luis GuLo
 # Version: 0.1
-# Dependencies: useradd, id
+# Dependencies: id, useradd, sudo
 
 useradd_task() {
   local host="$1"; shift
@@ -32,4 +32,16 @@ useradd_task() {
   [ -n "$groups" ] && cmd="$cmd -G \"$groups\""
 
   eval "$cmd" && echo "✅ [useradd] Usuario '$name' creado"
+}
+
+check_dependencies_useradd() {
+  local missing=()
+  for cmd in id useradd sudo; do
+    command -v "$cmd" >/dev/null 2>&1 || missing+=("$cmd")
+  done
+
+  if [[ ${#missing[@]} -gt 0 ]]; then
+    echo "❌ [useradd] Dependencias faltantes: ${missing[*]}"
+    return 1
+  fi
 }

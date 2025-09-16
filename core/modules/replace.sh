@@ -3,7 +3,7 @@
 # Description: Reemplaza texto en archivos usando expresiones regulares
 # Author: Luis GuLo
 # Version: 0.1
-# Dependencies: sed
+# Dependencies: sed, cp, tee
 
 replace_task() {
   local host="$1"; shift
@@ -35,4 +35,16 @@ replace_task() {
 
   $prefix sed -i "s|$regexp|$replace|g" "$path"
   echo "✅ [replace] Reemplazo aplicado en: $path"
+}
+
+check_dependencies_replace() {
+  local missing=()
+  for cmd in sed cp tee; do
+    command -v "$cmd" >/dev/null 2>&1 || missing+=("$cmd")
+  done
+
+  if [[ ${#missing[@]} -gt 0 ]]; then
+    echo "❌ [replace] Dependencias faltantes: ${missing[*]}"
+    return 1
+  fi
 }

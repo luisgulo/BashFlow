@@ -3,7 +3,7 @@
 # Description: Inserta o actualiza bloques de texto delimitados en archivos
 # Author: Luis GuLo
 # Version: 0.1
-# Dependencies: sed
+# Dependencies: grep, sed, tee, awk
 
 blockinfile_task() {
   local host="$1"; shift
@@ -55,4 +55,16 @@ blockinfile_task() {
     echo "$block"
     echo "$end"
   } | $prefix tee -a "$path" > /dev/null
+}
+
+check_dependencies_blockinfile() {
+  local missing=()
+  for cmd in grep sed tee awk; do
+    command -v "$cmd" >/dev/null 2>&1 || missing+=("$cmd")
+  done
+
+  if [[ ${#missing[@]} -gt 0 ]]; then
+    echo "❌ [blockinfile] Dependencias faltantes: ${missing[*]}"
+    return 1
+  fi
 }

@@ -3,7 +3,7 @@
 # Description: Ejecuta un módulo sobre una lista o matriz de valores
 # Author: Luis GuLo
 # Version: 0.2
-# Dependencies: bash
+# Dependencies: bashflow, echo, tee
 
 loop_task() {
   local host="$1"; shift
@@ -81,4 +81,16 @@ run_module() {
 
   echo "🔁 [loop] → $module con item='$item' secondary='$secondary_item'"
   bashflow run --host "$host" --module "$module" --args "${call_args[@]}"
+}
+
+check_dependencies_loop() {
+  local missing=()
+  for cmd in bashflow echo tee; do
+    command -v "$cmd" >/dev/null 2>&1 || missing+=("$cmd")
+  done
+
+  if [[ ${#missing[@]} -gt 0 ]]; then
+    echo "❌ [loop] Dependencias faltantes: ${missing[*]}"
+    return 1
+  fi
 }

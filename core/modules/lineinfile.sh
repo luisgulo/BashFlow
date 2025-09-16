@@ -3,7 +3,7 @@
 # Description: Asegura la presencia o reemplazo de una línea en un archivo
 # Author: Luis GuLo
 # Version: 0.1
-# Dependencies: sed
+# Dependencies: grep, sed, tee, awk
 
 lineinfile_task() {
   local host="$1"; shift
@@ -69,4 +69,16 @@ lineinfile_task() {
   # Añadir al final
   echo "➕ [lineinfile] Añadiendo línea al final"
   echo "$line" | $prefix tee -a "$path" > /dev/null
+}
+
+check_dependencies_lineinfile() {
+  local missing=()
+  for cmd in grep sed tee awk; do
+    command -v "$cmd" >/dev/null 2>&1 || missing+=("$cmd")
+  done
+
+  if [[ ${#missing[@]} -gt 0 ]]; then
+    echo "❌ [lineinfile] Dependencias faltantes: ${missing[*]}"
+    return 1
+  fi
 }
