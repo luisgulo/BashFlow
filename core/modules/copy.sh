@@ -1,6 +1,7 @@
 #!/bin/bash
 # Module: copy
 # Description: Copia archivos locales al host remoto usando scp
+# License: GPLv3
 # Author: Luis GuLo
 # Version: 1.1
 # Dependencies: scp, ssh

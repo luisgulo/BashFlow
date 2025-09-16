@@ -1,4 +1,5 @@
 #!/bin/bash
+# License: GPLv3
 # Module: docker
 # Description: Gestiona contenedores Docker (run, stop, remove, build, exec)
 # Author: Luis GuLo

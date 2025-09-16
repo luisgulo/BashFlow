@@ -1,6 +1,7 @@
 #!/bin/bash
 # Module: service
 # Description: Controla servicios del sistema remoto (start, stop, restart, enable, disable) con idempotencia
+# License: GPLv3
 # Author: Luis GuLo
 # Version: 1.1
 # Dependencies: ssh, systemctl

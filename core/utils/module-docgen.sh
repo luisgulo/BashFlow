@@ -1,9 +1,10 @@
 #!/bin/bash
 # BashFlow Module Documentation Generator
+# License: GPLv3
 # Author: Luis GuLo
 # Version: 1.0
 
-OUTPUT="core/docs/modules-list.md"
+OUTPUT="docs/modules-list.md"
 MODULE_DIRS=("core/modules" "user_modules" "community_modules")
 
 echo "# 🧩 Módulos en BashFlow" > "$OUTPUT"

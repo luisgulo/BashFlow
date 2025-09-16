@@ -1,6 +1,7 @@
 #!/bin/bash
 # Module: vault-remote
 # Description: Sincroniza secretos cifrados entre vault local y remoto
+# License: GPLv3
 # Author: Luis GuLo
 # Version: 1.0
 # Dependencies: ssh, scp, gpg

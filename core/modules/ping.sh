@@ -1,6 +1,7 @@
 #!/bin/bash
 # Module: ping
 # Description: Verifica conectividad desde el host remoto hacia un destino específico
+# License: GPLv3
 # Author: Luis GuLo
 # Version: 1.1
 # Dependencies: ping, ssh

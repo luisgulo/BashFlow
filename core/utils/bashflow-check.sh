@@ -1,5 +1,6 @@
 #!/bin/bash
 # BashFlow Environment Checker
+# License: GPLv3
 # Author: Luis GuLo
 # Version: 1.1
 

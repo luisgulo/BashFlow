@@ -1,6 +1,7 @@
 #!/bin/bash
 # Module: file
 # Description: Gestiona archivos y directorios remotos (crear, eliminar, permisos)
+# License: GPLv3
 # Author: Luis GuLo
 # Version: 1.1
 # Dependencies: ssh
