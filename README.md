@@ -1,5 +1,7 @@
 # 🚀 BashFlow
 
+![Logo BashFlow](./bashflow-logo.svg)
+
 [ES] 
 
 Framework modular en Bash para automatización distribuida, inspirado en la filosofía de Ansible pero optimizado para entornos shell-friendly.
