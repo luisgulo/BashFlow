@@ -1,0 +1,15 @@
+tasks:
+  - name: Actualizar sistema completo
+    module: package
+    args:
+      state: system-update
+      update_type: full
+      become: true
+
+  - name: Aplicar parches de seguridad (solo RPM)
+    module: package
+    args:
+      state: system-update
+      update_type: security
+      become: true
+

@@ -90,6 +90,12 @@ bashflow/
 │   ├── examples/              # Playbooks YAML de ejemplo
 │   ├── docs/                  # Documentación técnica y de uso
 │   ├── templates/             # Archivos base para módulos, config, etc.
+│   ├── inventory/
+│   ├────── hosts.yaml         # Inventario principal
+│   ├────── groups.yaml        # Definición de grupos (opcional)
+│   ├────── vars/              # Variables por host o grupo
+│   │       ├── web.yaml
+│   │       └── db.yaml
 │   └── utils/                 # Funciones comunes (logging, validación, etc.)
 ├── user_modules/              # Módulos personalizados del usuario
 │   └── my_custom_module.sh

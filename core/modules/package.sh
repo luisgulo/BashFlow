@@ -1,8 +1,8 @@
 #!/bin/bash
 # Module: package
-# Description: Instala, actualiza o elimina paquetes .deb/.rpm según el gestor disponible
+# Description: Instala, actualiza o elimina paquetes .deb/.rpm y permite actualizar el sistema
 # Author: Luis GuLo
-# Version: 2.0
+# Version: 2.1
 # Dependencies: ssh
 
 package_task() {
@@ -12,6 +12,7 @@ package_task() {
   local name="${args[name]}"
   local state="${args[state]}"
   local become="${args[become]}"
+  local update_type="${args[update_type]:-full}"  # full | security
 
   local prefix=""
   [ "$become" = "true" ] && prefix="sudo"
@@ -27,10 +28,18 @@ package_task() {
 
   case "$pkg_mgr" in
     *apt*)
-      package_apt "$host" "$name" "$state" "$prefix"
+      if [ "$state" = "system-update" ]; then
+        system_update_apt "$host" "$prefix"
+      else
+        package_apt "$host" "$name" "$state" "$prefix"
+      fi
       ;;
     *yum*|*dnf*)
-      package_rpm "$host" "$name" "$state" "$prefix"
+      if [ "$state" = "system-update" ]; then
+        system_update_rpm "$host" "$prefix" "$update_type"
+      else
+        package_rpm "$host" "$name" "$state" "$prefix"
+      fi
       ;;
     *)
       echo "❌ [package] Gestor '$pkg_mgr' no soportado."
@@ -93,6 +102,27 @@ package_rpm() {
       return 1
       ;;
   esac
+}
+
+system_update_apt() {
+  local host="$1"
+  local prefix="$2"
+  echo "🔄 [package] Actualización completa del sistema (.deb)"
+  ssh "$host" "$prefix apt-get update && $prefix apt-get upgrade -y"
+}
+
+system_update_rpm() {
+  local host="$1"
+  local prefix="$2"
+  local update_type="$3"
+
+  if [ "$update_type" = "security" ]; then
+    echo "🔐 [package] Actualización de seguridad (.rpm)"
+    ssh "$host" "$prefix dnf update --security -y || $prefix yum update --security -y"
+  else
+    echo "🔄 [package] Actualización completa del sistema (.rpm)"
+    ssh "$host" "$prefix dnf upgrade --refresh -y || $prefix yum update -y"
+  fi
 }
 
 check_dependencies_package() {
