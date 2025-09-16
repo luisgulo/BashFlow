@@ -1,6 +1,7 @@
 #!/bin/bash
 # Utility: vault_utils
 # Description: Funciones para acceso seguro al vault de BashFlow
+# License: GPLv3
 # Author: Luis GuLo
 # Version: 1.0
 # Dependencies: gpg

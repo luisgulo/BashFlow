@@ -1,5 +1,6 @@
 #!/bin/bash
 # BashFlow Module Template Generator
+# License: GPLv3
 # Author: Luis GuLo
 # Version: 1.0
 

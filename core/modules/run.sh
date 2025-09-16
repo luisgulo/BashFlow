@@ -1,6 +1,7 @@
 #!/bin/bash
 # Module: run
 # Description: Ejecuta comandos remotos vía SSH, con soporte para vault y sudo
+# License: GPLv3
 # Author: Luis GuLo
 # Version: 1.1
 # Dependencies: ssh, core/utils/vault_utils.sh

@@ -1,6 +1,7 @@
 #!/bin/bash
 # Module: git
 # Description: Gestiona repositorios Git en hosts remotos (clone, pull, checkout, fetch-file)
+# License: GPLv3
 # Author: Luis GuLo
 # Version: 1.1
 # Dependencies: ssh, git, curl, tar

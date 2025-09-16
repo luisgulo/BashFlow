@@ -1,6 +1,7 @@
 #!/bin/bash
 # Module: package
 # Description: Instala, actualiza o elimina paquetes .deb/.rpm y permite actualizar el sistema
+# License: GPLv3
 # Author: Luis GuLo
 # Version: 2.1
 # Dependencies: ssh

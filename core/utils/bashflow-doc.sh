@@ -1,5 +1,6 @@
 #!/bin/bash
 # BashFlow Doc Generator
+# License: GPLv3
 # Author: Luis GuLo
 # Version: 0.1
 

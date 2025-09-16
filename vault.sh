@@ -1,5 +1,6 @@
 #!/bin/bash
 # BashFlow Vault Manager
+# License: GPLv3
 # Author: Luis GuLo
 # Version: 1.2
 # Dependencies: gpg
