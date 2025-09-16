@@ -164,7 +164,7 @@ El controlador principal (`bashflow.sh`) puede cargar dinámicamente los módulo
 
 ```bash
 load_modules() {
-  for dir in core/modules user_modules third_party_modules; do
+  for dir in core/modules user_modules community_modules; do
     for mod in "$dir"/*.sh; do
       [ -f "$mod" ] && source "$mod"
     done
@@ -235,7 +235,7 @@ service_task() {
 Se va a necesitar de una herramienta, que vamos a llamar `bashflow-doc` que será la encargada de escanear todos los módulos y generar una documentación automática en consola o en formato Markdown:
 
 ```bash
-bashflow-doc core/modules/ user_modules/ third_party_modules/
+bashflow-doc core/modules/ user_modules/ community_modules/
 ```
 
 ### ¿Qué hace?
