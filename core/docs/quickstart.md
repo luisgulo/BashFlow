@@ -87,15 +87,3 @@ Usa el secreto en un playbook:
       vault_key: "api_token"
 ```
 
----
-
-### 📚 ¿Y ahora qué?
-
-- Explora los módulos en `core/modules/`
-- Revisa los ejemplos en `core/examples/`
-- Consulta la documentación en `core/docs/`
-- Crea tus propios módulos en `user_modules/`
-
----
-
-¿Quieres que sigamos con `modules.md` y preparemos una tabla de referencia por módulo con argumentos, estado y ejemplos YAML? Esto ya está listo para onboarding real.
