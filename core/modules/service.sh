@@ -24,7 +24,7 @@ service_task() {
       ssh "$host" "$prefix systemctl $state '$name'"
       ;;
     *)
-      echo "❌ [service] Estado '$state' no soportado."
+      echo "  ❌ [service] Estado '$state' no soportado."
       return 1
       ;;
   esac
@@ -33,14 +33,14 @@ service_task() {
 
 check_dependencies_service() {
   if ! command -v ssh &> /dev/null; then
-    echo "❌ [service] ssh no está disponible."
+    echo "  ❌ [service] ssh no está disponible."
     return 1
   fi
-  echo "✅ [service] ssh disponible."
+  echo "  ✅ [service] ssh disponible."
   if ! command -v systemctl &> /dev/null; then
     echo "⚠️  [service] systemctl no está disponible localmente. Se asumirá que existe en el host remoto."
   else
-    echo "✅ [service] systemctl disponible localmente."
+    echo "  ✅ [service] systemctl disponible localmente."
   fi
   return 0
 }

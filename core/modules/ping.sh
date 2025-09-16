@@ -20,15 +20,15 @@ ping_task() {
   echo "📡 [ping] Probando conectividad desde $host hacia $target..."
 
   ssh "$host" "$prefix ping -c $count -W $timeout $target &>/dev/null" \
-    && echo "✅ [ping] $host puede alcanzar $target" \
-    || echo "❌ [ping] $host no puede alcanzar $target"
+    && echo "  ✅ [ping] $host puede alcanzar $target" \
+    || echo "  ❌ [ping] $host no puede alcanzar $target"
 }
 
 check_dependencies_ping() {
   if ! command -v ssh &> /dev/null || ! command -v ping &> /dev/null; then
-    echo "❌ [ping] ssh o ping no están disponibles."
+    echo "  ❌ [ping] ssh o ping no están disponibles."
     return 1
   fi
-  echo "✅ [ping] ssh y ping disponibles."
+  echo "  ✅ [ping] ssh y ping disponibles."
   return 0
 }

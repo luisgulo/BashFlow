@@ -32,7 +32,7 @@ blockinfile_task() {
       echo "📄 [blockinfile] Creando archivo: $path"
       touch "$path"
     else
-      echo "❌ [blockinfile] El archivo no existe y create=false"
+      echo "  ❌ [blockinfile] El archivo no existe y create=false"
       return 1
     fi
   fi
@@ -61,10 +61,11 @@ check_dependencies_blockinfile() {
   local missing=()
   for cmd in grep sed tee awk; do
     command -v "$cmd" >/dev/null 2>&1 || missing+=("$cmd")
+    if [[ ${#missing[@]} -gt 0 ]]; then
+      echo "  ❌ [blockinfile] Dependencias faltantes: ${missing[*]}"
+      return 1
+    else
+      echo "  ✅ [blockinfile] $cmd disponible."     
+    fi
   done
-
-  if [[ ${#missing[@]} -gt 0 ]]; then
-    echo "❌ [blockinfile] Dependencias faltantes: ${missing[*]}"
-    return 1
-  fi
 }

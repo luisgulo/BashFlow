@@ -31,7 +31,7 @@ lineinfile_task() {
       echo "📄 [lineinfile] Creando archivo: $path"
       touch "$path"
     else
-      echo "❌ [lineinfile] El archivo no existe y create=false"
+      echo "  ❌ [lineinfile] El archivo no existe y create=false"
       return 1
     fi
   fi
@@ -62,7 +62,7 @@ lineinfile_task() {
 
   # Si la línea ya existe, no hacer nada
   if grep -Fxq "$line" "$path"; then
-    echo "✅ [lineinfile] Línea ya presente: \"$line\""
+    echo "  ✅ [lineinfile] Línea ya presente: \"$line\""
     return 0
   fi
 
@@ -75,10 +75,11 @@ check_dependencies_lineinfile() {
   local missing=()
   for cmd in grep sed tee awk; do
     command -v "$cmd" >/dev/null 2>&1 || missing+=("$cmd")
+    if [[ ${#missing[@]} -gt 0 ]]; then
+      echo "  ❌ [lineinfile] Dependencias faltantes: ${missing[*]}"
+      return 1
+    else
+      echo "  ✅ [lineinfile] $cmd disponible."
+    fi
   done
-
-  if [[ ${#missing[@]} -gt 0 ]]; then
-    echo "❌ [lineinfile] Dependencias faltantes: ${missing[*]}"
-    return 1
-  fi
 }

@@ -34,10 +34,10 @@ check_dependencies_copy() {
   local missing=0
   for cmd in scp ssh; do
     if ! command -v "$cmd" &> /dev/null; then
-      echo "❌ [copy] $cmd no está disponible."
+      echo "  ❌ [copy] $cmd no está disponible."
       missing=1
     else
-      echo "✅ [copy] $cmd disponible."
+      echo "  ✅ [copy] $cmd disponible."
     fi
   done
   return $missing

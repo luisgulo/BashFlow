@@ -27,7 +27,7 @@ loop_task() {
 
   # Validación mínima
   if [[ -z "$items_raw" || -z "$target_module" ]]; then
-    echo "❌ [loop] Faltan argumentos obligatorios: items=... module=..."
+    echo "  ❌ [loop] Faltan argumentos obligatorios: items=... module=..."
     return 1
   fi
 
@@ -87,10 +87,11 @@ check_dependencies_loop() {
   local missing=()
   for cmd in bashflow echo tee; do
     command -v "$cmd" >/dev/null 2>&1 || missing+=("$cmd")
+    if [[ ${#missing[@]} -gt 0 ]]; then
+      echo "  ❌ [loop] Dependencias faltantes: ${missing[*]}"
+      return 1
+    else
+      echo "  ✅ [loop] $cmd disponible."    
+    fi
   done
-
-  if [[ ${#missing[@]} -gt 0 ]]; then
-    echo "❌ [loop] Dependencias faltantes: ${missing[*]}"
-    return 1
-  fi
 }

@@ -39,7 +39,7 @@ docker_task() {
       ssh "$host" "$prefix docker exec '$name' $command"
       ;;
     *)
-      echo "❌ [docker] Acción '$action' no soportada."
+      echo "  ❌ [docker] Acción '$action' no soportada."
       return 1
       ;;
   esac
@@ -47,15 +47,15 @@ docker_task() {
 
 check_dependencies_docker() {
   if ! command -v ssh &> /dev/null; then
-    echo "❌ [docker] ssh no está disponible."
+    echo "  ❌ [docker] ssh no está disponible."
     return 1
   fi
-  echo "✅ [docker] ssh disponible."
+  echo "  ✅ [docker] ssh disponible."
 
   if ! command -v docker &> /dev/null; then
     echo "⚠️  [docker] docker no disponible localmente. Se asumirá que existe en el host remoto."
   else
-    echo "✅ [docker] docker disponible localmente."
+    echo "  ✅ [docker] docker disponible localmente."
   fi
   return 0
 }

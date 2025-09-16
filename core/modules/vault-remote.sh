@@ -28,7 +28,7 @@ vault_remote_task() {
   case "$action" in
     push)
       if [ ! -f "$VAULT_DIR/$key.gpg" ]; then
-        echo "❌ [vault-remote] Secreto '$key' no existe localmente."
+        echo "  ❌ [vault-remote] Secreto '$key' no existe localmente."
         return 1
       fi
       scp "$VAULT_DIR/$key.gpg" "$host:$remote_path/$key.gpg"
@@ -37,7 +37,7 @@ vault_remote_task() {
       ;;
     pull)
       ssh "$host" "$prefix test -f '$remote_path/$key.gpg'" || {
-        echo "❌ [vault-remote] Secreto '$key' no existe en el host remoto."
+        echo "  ❌ [vault-remote] Secreto '$key' no existe en el host remoto."
         return 1
       }
       scp "$host:$remote_path/$key.gpg" "$VAULT_DIR/$key.gpg"
@@ -49,7 +49,7 @@ vault_remote_task() {
       echo "🔄 Vault sincronizado con $host:$remote_path"
       ;;
     *)
-      echo "❌ [vault-remote] Acción '$action' no soportada."
+      echo "  ❌ [vault-remote] Acción '$action' no soportada."
       return 1
       ;;
   esac
@@ -58,10 +58,10 @@ vault_remote_task() {
 check_dependencies_vault_remote() {
   for cmd in ssh scp gpg; do
     if ! command -v "$cmd" &> /dev/null; then
-      echo "❌ [vault-remote] $cmd no disponible."
+      echo "  ❌ [vault-remote] $cmd no disponible."
       return 1
     fi
   done
-  echo "✅ [vault-remote] Dependencias disponibles."
+  echo "  ✅ [vault-remote] Dependencias disponibles."
   return 0
 }
