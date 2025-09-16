@@ -128,9 +128,6 @@ bashflow/
 │   ├── update_so.yaml
 │   ├── vault-demo.yaml
 │   └── vault-sync.yaml
-├── NOTAS
-│   ├── LEEME.md
-│   └── Mejoras.md
 ├── README.md
 ├── user_modules
 │   └── my_custom_module.sh
