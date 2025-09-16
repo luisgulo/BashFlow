@@ -67,10 +67,10 @@ See the [`LICENSE`](LICENSE) file for details.
 
 [ES]
 
-Por favor lea el documento [DETAILS.md](docs/DETAILS.md)
+Por favor lea el documento [DETAILS-es.md](docs/DETAILS-es.md)
 
 [EN]
 
-Please read the [DETAILS.md](docs/DETAILS.md) document
+Please read the [DETAILS-en.md](docs/DETAILS-en.md) document
 
 --

@@ -85,26 +85,63 @@ Además de poder crear o incorporar módulos como opción clave para que otros u
 
 ```bash
 bashflow/
-├── core/
-│   ├── modules/               # Módulos oficiales del núcleo
-│   ├── templates/             # Archivos base para módulos, config, etc.
-│   ├── inventory/
-│   ├────── hosts.yaml         # Inventario principal
-│   ├────── groups.yaml        # Definición de grupos (opcional)
-│   ├────── vars/              # Variables por host o grupo
-│   │       ├── web.yaml
-│   │       └── db.yaml
-│   └── utils/                 # Funciones comunes (logging, validación, etc.)
-│       ├── bashflow-doc.sh    # Generador de documentación
-│       └── bashflow-check.sh  # Verificador de entorno y dependencias
-├── user_modules/              # Módulos personalizados del usuario
-│   └── my_custom_module.sh
-├── community_modules/         # Módulos compartidos por la comunidad
-│   └── awesome_module.sh
-├── examples/              # Playbooks YAML de ejemplo
-├── docs/                  # Documentación técnica y de uso
-├── bashflow.sh                # Script controlador principal
-└── README.md                  # Introducción al proyecto
+├── bashflow.sh
+├── community_modules
+│   └── awesome_module.sh
+├── core
+│   ├── inventory
+│   │   ├── groups.yaml
+│   │   ├── hosts.yaml
+│   │   └── vars
+│   │       └── all.yaml
+│   ├── modules
+│   │   ├── copy.sh
+│   │   ├── docker.sh
+│   │   ├── file.sh
+│   │   ├── git.sh
+│   │   ├── package.sh
+│   │   ├── ping.sh
+│   │   ├── run.sh
+│   │   ├── service.sh
+│   │   └── vault-remote.sh
+│   ├── templates
+│   ├── utils
+│   │   ├── bashflow-check.sh
+│   │   ├── bashflow-doc.sh
+│   │   ├── module-docgen.sh
+│   │   ├── module-template.sh
+│   │   ├── vault-init.sh
+│   │   └── vault_utils.sh
+│   └── vault
+├── docs
+│   ├── DETAILS.md
+│   ├── examples.md
+│   ├── modules-list.md
+│   ├── modules.md
+│   ├── quickstart.md
+│   ├── structure.md
+│   ├── vault-collab.md
+│   └── vault.md
+├── examples
+│   ├── apt-update.yaml
+│   ├── clone-and-configure.yaml
+│   ├── deploy-nginx.yaml
+│   ├── full-stack.yaml
+│   ├── install-tools.yaml
+│   ├── log-bashflow.yaml
+│   ├── minimal.yaml
+│   ├── ping.yaml
+│   ├── remote-ping.yaml
+│   ├── update_so.yaml
+│   ├── vault-demo.yaml
+│   └── vault-sync.yaml
+├── NOTAS
+│   ├── LEEME.md
+│   └── Mejoras.md
+├── README.md
+├── user_modules
+│   └── my_custom_module.sh
+└── vault.sh
 
 ```
 
