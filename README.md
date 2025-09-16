@@ -62,3 +62,15 @@ See the [`LICENSE`](LICENSE) file for details.
 
 
 ---
+
+## Detalles extra  / Extra details
+
+[ES]
+
+Por favor lea el documento [DETAILS.md](docs/DETAILS.md)
+
+[EN]
+
+Please read the [DETAILS.md](docs/DETAILS.md) document
+
+--
