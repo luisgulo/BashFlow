@@ -24,6 +24,7 @@ cat > "$MODULE_FILE" <<EOF
 #!/bin/bash
 # Module: $MODULE_NAME
 # Description: <descripción breve del módulo>
+# License: GPLv3
 # Author: Luis GuLo
 # Version: 1.0
 # Dependencies: <comandos externos si aplica>
