@@ -33,12 +33,15 @@ A modular Bash framework for distributed automation, inspired by the Ansible phi
 - `community_modules/`: módulos especializados o experimentales
 - `inventory/`: definición de hosts, grupos y variables
 - `examples/`: playbooks de ejemplo
+- `doc/`: documentacion del framework y uso de los módulos
+
 ---
 🇬🇧
 - `core/`: base modules and utilities
 - `community_modules/`: specialized or experimental modules
 - `inventory/`: definition of hosts, groups, and variables
 - `examples/`: example playbooks
+- `doc/`: framework documentation and module usage
 
 ## 🤝 Contribuir / Contribute
 🇪🇸
