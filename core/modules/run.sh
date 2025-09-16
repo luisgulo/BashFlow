@@ -6,7 +6,11 @@
 # Version: 1.1
 # Dependencies: ssh, core/utils/vault_utils.sh
 
-source "core/utils/vault_utils.sh"
+# Detectar raíz del proyecto si no está definida
+PROJECT_ROOT="${BASHFLOW_HOME:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
+
+# Cargar utilidades
+source "$PROJECT_ROOT/core/utils/vault_utils.sh"
 
 run_task() {
   local host="$1"; shift

@@ -1,10 +1,20 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # BashFlow Doc Generator
 # License: GPLv3
 # Author: Luis GuLo
-# Version: 0.1
+# Version: 0.2
 
-MODULE_PATHS=("core/modules" "user_modules" "community_modules")
+set -e
+
+# ─────────────────────────────────────────────
+# 🧭 Detección de la raíz del proyecto
+PROJECT_ROOT="${BASHFLOW_HOME:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
+
+MODULE_PATHS=(
+  "$PROJECT_ROOT/core/modules"
+  "$PROJECT_ROOT/user_modules"
+  "$PROJECT_ROOT/community_modules"
+)
 
 extract_metadata() {
   local file="$1"

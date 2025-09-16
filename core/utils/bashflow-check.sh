@@ -1,20 +1,33 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # BashFlow Environment Checker
 # License: GPLv3
 # Author: Luis GuLo
-# Version: 1.1
+# Version: 1.2
 
-MODULE_PATHS=("core/modules" "user_modules" "community_modules")
+set -e
+
+# ─────────────────────────────────────────────
+# 🧭 Detección de la raíz del proyecto
+# ─────────────────────────────────────────────
+PROJECT_ROOT="${BASHFLOW_HOME:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
+
+MODULE_PATHS=(
+  "$PROJECT_ROOT/core/modules"
+  "$PROJECT_ROOT/user_modules"
+  "$PROJECT_ROOT/community_modules"
+)
+
 GLOBAL_TOOLS=("bash" "ssh" "scp" "git" "curl" "jq" "yq" "gpg")
+
 REQUIRED_PATHS=(
-  "core/modules"
-  "core/utils"
-  "core/examples"
-  "core/docs"
-  "user_modules"
-  "community_modules"
-  "bashflow.sh"
-  "vault.sh"
+  "$PROJECT_ROOT/core/modules"
+  "$PROJECT_ROOT/core/utils"
+  "$PROJECT_ROOT/examples"
+  "$PROJECT_ROOT/docs"
+  "$PROJECT_ROOT/user_modules"
+  "$PROJECT_ROOT/community_modules"
+  "$PROJECT_ROOT/bashflow.sh"
+  "$PROJECT_ROOT/vault.sh"
 )
 
 check_global_tools() {

@@ -1,14 +1,21 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # BashFlow Vault Manager
 # License: GPLv3
 # Author: Luis GuLo
-# Version: 1.2
+# Version: 1.3
 # Dependencies: gpg
 
-VAULT_DIR="core/vault"
-VAULT_KEY="${VAULT_KEY:-$HOME/.bashflow.key}"     # Clave simétrica
+set -e
+
+# ─────────────────────────────────────────────
+# 🧭 Detección de la raíz del proyecto
+PROJECT_ROOT="${BASHFLOW_HOME:-$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)}"
+
+# 📁 Rutas clave
+VAULT_DIR="$PROJECT_ROOT/core/vault"
+VAULT_KEY="${VAULT_KEY:-$HOME/.bashflow.key}"       # Clave simétrica
 VAULT_PUBKEY="${VAULT_PUBKEY:-$HOME/.bashflow.pub}" # Clave pública
-VAULT_RECIPIENT="${VAULT_RECIPIENT:-}"            # ID de clave pública (opcional)
+VAULT_RECIPIENT="${VAULT_RECIPIENT:-}"              # ID de clave pública (opcional)
 
 encrypt_secret() {
   local key="$1"
@@ -35,7 +42,7 @@ decrypt_secret() {
 }
 
 list_secrets() {
-  ls "$VAULT_DIR"/*.gpg 2>/dev/null | sed 's/.*\/\(.*\)\.gpg/\1/'
+  ls "$VAULT_DIR"/*.gpg 2>/dev/null | sed 's|.*/\(.*\)\.gpg|\1|'
 }
 
 vault_task() {
@@ -104,3 +111,4 @@ main() {
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
   main "$@"
 fi
+

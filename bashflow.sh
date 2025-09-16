@@ -2,9 +2,16 @@
 # BashFlow Playbook Runner
 # License: GPLv3
 # Author: Luis GuLo
-# Version: 1.1
+# Version: 1.2
 
 set -e
+
+# ─────────────────────────────────────────────
+# 🧭 Detección de la raíz del proyecto
+# ─────────────────────────────────────────────
+PROJECT_ROOT="${BASHFLOW_HOME:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+
+
 
 # ─────────────────────────────────────────────
 # 🔧 Configuración
@@ -94,7 +101,9 @@ for ((i=0; i<NUM_TASKS; i++)); do
 
   echo "🔧 Ejecutando tarea: \"$NAME\" (módulo: \"$MODULE\")"
 
-  MODULE_PATH="core/modules/${MODULE}.sh"
+  #MODULE_PATH="core/modules/${MODULE}.sh"
+  MODULE_PATH="$PROJECT_ROOT/core/modules/${MODULE}.sh"
+
   if [ ! -f "$MODULE_PATH" ]; then
     echo "❌ Módulo no encontrado: $MODULE_PATH"
     continue
