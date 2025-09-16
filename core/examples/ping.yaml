@@ -1,7 +1,0 @@
-tasks:
-  - name: Verificar conectividad con servidor
-    module: ping
-    args:
-      count: 3
-      timeout: 5
-      become: false
