@@ -1,6 +1,6 @@
 # 🚀 BashFlow
 
-![Logo BashFlow](./bashflow-logo.svg)
+![Logo BashFlow](./bashflow-logo.png)
 
 🇪🇸 
 
