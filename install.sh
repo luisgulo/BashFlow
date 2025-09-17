@@ -24,10 +24,19 @@ mkdir -p "$BIN_DIR"
 
 # 🧹 Limpiar instalación previa si existe
 if [[ -d "$INSTALL_DIR" ]]; then
-  echo "⚠️ Eliminando instalación previa en $INSTALL_DIR"
+  echo "⚠️ Instalación previa detectada en $INSTALL_DIR"
+
+  # 🛡️ Preservar vault si existe
+  if [[ -d "$INSTALL_DIR/core/vault" ]]; then
+    echo "📦 Preservando vault existente..."
+    mv "$INSTALL_DIR/core/vault" /tmp/bashflow_vault_backup
+  fi
+
+  echo "🧹 Eliminando instalación previa..."
   rm -rf "$INSTALL_DIR"
   mkdir -p "$INSTALL_DIR"
 fi
+
 
 # 📥 Copiar archivos y carpetas manualmente (excluyendo logo e install.sh)
 echo "📦 Copiando archivos..."
@@ -41,6 +50,13 @@ done
 for dir in core community_modules user_modules docs examples; do
   cp -r "$dir" "$INSTALL_DIR/"
 done
+
+# 🔁 Restaurar vault si fue preservado
+if [[ -d "/tmp/bashflow_vault_backup" ]]; then
+  echo "🔁 Restaurando vault..."
+  rm -rf "$INSTALL_DIR/core/vault"
+  mv /tmp/bashflow_vault_backup "$INSTALL_DIR/core/vault"
+fi
 
 # 🔗 Crear symlinks en el PATH
 ln -sf "$INSTALL_DIR/bashflow.sh" "$BIN_DIR/bashflow"
