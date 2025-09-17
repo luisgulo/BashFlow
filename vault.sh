@@ -118,7 +118,7 @@ vault_task() {
       export_secrets
       ;;
     *)
-      echo "❌ [vault] Acción '$action' no soportada."
+      echo "  ❌ [vault] Acción '$action' no soportada."
       return 1
       ;;
   esac
@@ -127,7 +127,7 @@ vault_task() {
 # 🔍 Verificar dependencias
 check_dependencies_vault() {
   if ! command -v gpg &> /dev/null; then
-    echo "❌ [vault] gpg no está disponible."
+    echo "  ❌ [vault] gpg no está disponible."
     return 1
   fi
   echo "✅ [vault] gpg disponible."

@@ -24,14 +24,14 @@ useradd_task() {
   [ "$become" = "true" ] && prefix="sudo"
 
   if id "$name" &>/dev/null; then
-    echo "  ✅ [useradd] Usuario '$name' ya existe"
+    echo "    ✅ [useradd] Usuario '$name' ya existe"
     return 0
   fi
 
   local cmd="$prefix useradd -m -d \"$home\" -s \"$shell\" \"$name\""
   [ -n "$groups" ] && cmd="$cmd -G \"$groups\""
 
-  eval "$cmd" && echo "  ✅ [useradd] Usuario '$name' creado"
+  eval "$cmd" && echo "    ✅ [useradd] Usuario '$name' creado"
 }
 
 check_dependencies_useradd() {
@@ -39,10 +39,10 @@ check_dependencies_useradd() {
   for cmd in id sudo; do
     command -v "$cmd" >/dev/null 2>&1 || missing+=("$cmd")
     if [[ ${#missing[@]} -gt 0 ]]; then
-      echo "  ❌ [useradd] Dependencias faltantes: ${missing[*]}"
+      echo "    ❌ [useradd] Dependencias faltantes: ${missing[*]}"
       return 1
     else
-      echo "  ✅ [useradd] $cmd disponible."    
+      echo "    ✅ [useradd] $cmd disponible."    
     fi
   done
 }

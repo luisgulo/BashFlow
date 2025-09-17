@@ -43,7 +43,7 @@ file_task() {
       fi
       ;;
     *)
-      echo "  ❌ [file] Estado '$state' no soportado."
+      echo "    ❌ [file] Estado '$state' no soportado."
       return 1
       ;;
   esac
@@ -51,9 +51,9 @@ file_task() {
 
 check_dependencies_file() {
   if ! command -v ssh &> /dev/null; then
-    echo "  ❌ [file] ssh no está disponible."
+    echo "    ❌ [file] ssh no está disponible."
     return 1
   fi
-  echo "  ✅ [file] ssh disponible."
+  echo "    ✅ [file] ssh disponible."
   return 0
 }

@@ -61,7 +61,7 @@ fs_task() {
       fi
       ;;
     *)
-      echo "❌ [fs] Acción '$action' no soportada."
+      echo "  ❌ [fs] Acción '$action' no soportada."
       return 1
       ;;
   esac
@@ -69,9 +69,9 @@ fs_task() {
 
 check_dependencies_fs() {
   if ! command -v ssh &> /dev/null; then
-    echo "❌ [fs] ssh no está disponible."
+    echo "  ❌ [fs] ssh no está disponible."
     return 1
   fi
-  echo "✅ [fs] ssh disponible."
+  echo "    ✅ [fs] ssh disponible."
   return 0
 }

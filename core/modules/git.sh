@@ -36,7 +36,7 @@ git_task() {
       fetch_file_from_repo "$host" "$repo" "$branch" "$file_path" "$dest" "$become"
       ;;
     *)
-      echo "  ❌ [git] Acción '$action' no soportada."
+      echo "    ❌ [git] Acción '$action' no soportada."
       return 1
       ;;
   esac
@@ -61,10 +61,10 @@ check_dependencies_git() {
   local missing=0
   for cmd in ssh git curl tar; do
     if ! command -v "$cmd" &> /dev/null; then
-      echo "  ❌ [git] $cmd no disponible."
+      echo "    ❌ [git] $cmd no disponible."
       missing=1
     else
-      echo "  ✅ [git] $cmd disponible."
+      echo "    ✅ [git] $cmd disponible."
     fi
   done
   return $missing

@@ -46,11 +46,11 @@ check_dependencies_$MODULE_NAME() {
   # Verifica herramientas necesarias
   for cmd in <comando1> <comando2>; do
     if ! command -v "\$cmd" &> /dev/null; then
-      echo "  ❌ [$MODULE_NAME] Falta: \$cmd"
+      echo "    ❌ [$MODULE_NAME] Falta: \$cmd"
       return 1
     fi
   done
-  echo "  ✅ [$MODULE_NAME] Dependencias OK"
+  echo "    ✅ [$MODULE_NAME] Dependencias OK"
   return 0
 }
 EOF

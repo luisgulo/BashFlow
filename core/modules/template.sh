@@ -36,7 +36,7 @@ template_task() {
   [ "$become" = "true" ] && prefix="sudo"
 
   local template_path="$TEMPLATE_DIR/$src"
-  [[ ! -f "$template_path" ]] && echo "  ❌ [template] Plantilla no encontrada: $template_path" && return 1
+  [[ ! -f "$template_path" ]] && echo "    ❌ [template] Plantilla no encontrada: $template_path" && return 1
 
   local rendered=""
   local line loop_active="false" loop_key="" loop_buffer=()
@@ -84,14 +84,14 @@ template_task() {
   if [[ "$strict" == "true" ]]; then
     missing=$(echo "$rendered" | grep -o "${start_delim}[^${end_delim}]*${end_delim}" | sort -u)
     if [[ -n "$missing" ]]; then
-      echo "  ❌ [template] Variables no definidas:"
+      echo "    ❌ [template] Variables no definidas:"
       echo "$missing"
       return 1
     fi
   fi
 
   echo "$rendered" | $prefix tee "$dest" > /dev/null
-  echo "  ✅ [template] Archivo generado: $dest"
+  echo "    ✅ [template] Archivo generado: $dest"
 }
 
 replace_vars() {
@@ -112,10 +112,10 @@ check_dependencies_template() {
   for cmd in sed tee grep cat; do
     command -v "$cmd" >/dev/null 2>&1 || missing+=("$cmd")
     if [[ ${#missing[@]} -gt 0 ]]; then
-      echo "  ❌ [template] Dependencias faltantes: ${missing[*]}"
+      echo "    ❌ [template] Dependencias faltantes: ${missing[*]}"
       return 1
     else
-      echo "  ✅ [template] $cmd disponible."
+      echo "    ✅ [template] $cmd disponible."
     fi
   done
 }

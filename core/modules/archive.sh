@@ -50,7 +50,7 @@ archive_task() {
           done
           ;;
         *)
-          echo "❌ [archive] Formato '$format' no soportado para compresión."
+          echo "  ❌ [archive] Formato '$format' no soportado para compresión."
           return 1
           ;;
       esac
@@ -67,7 +67,7 @@ archive_task() {
           ssh "$host" "$prefix unzip -o '$archive' -d '$dest'" && echo "📂 [archive] Descomprimido ZIP en: $dest"
           ;;
         *)
-          echo "❌ [archive] Formato '$format' no soportado para descompresión."
+          echo "  ❌ [archive] Formato '$format' no soportado para descompresión."
           return 1
           ;;
       esac
@@ -81,13 +81,13 @@ archive_task() {
           ssh "$host" "$prefix unzip -o '$archive' -d '$dest'" && echo "📂 [archive] Extraído ZIP en: $dest"
           ;;
         *)
-          echo "❌ [archive] Formato '$format' no soportado para extracción."
+          echo "  ❌ [archive] Formato '$format' no soportado para extracción."
           return 1
           ;;
       esac
       ;;
     *)
-      echo "❌ [archive] Acción '$action' no soportada."
+      echo "  ❌ [archive] Acción '$action' no soportada."
       return 1
       ;;
   esac
@@ -96,9 +96,9 @@ archive_task() {
 check_dependencies_archive() {
   for cmd in ssh tar gzip bzip2 zip unzip; do
     if ! command -v "$cmd" &> /dev/null; then
-      echo "⚠️ [archive] '$cmd' no disponible localmente. Se asumirá que existe en el host remoto."
+      echo "    ⚠️ [archive] '$cmd' no disponible localmente. Se asumirá que existe en el host remoto."
     else
-      echo "✅ [archive] '$cmd' disponible localmente."
+      echo "    ✅ [archive] '$cmd' disponible localmente."
     fi
   done
   return 0

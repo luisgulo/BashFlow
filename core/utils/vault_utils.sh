@@ -14,13 +14,13 @@ get_secret() {
   local value
 
   if [ ! -f "$VAULT_DIR/$key.gpg" ]; then
-    echo "  ❌ [vault] Secreto '$key' no encontrado en $VAULT_DIR"
+    echo "    ❌ [vault] Secreto '$key' no encontrado en $VAULT_DIR"
     return 1
   fi
 
   value=$(gpg --quiet --batch --yes --passphrase-file "$VAULT_KEY" -d "$VAULT_DIR/$key.gpg" 2>/dev/null)
   if [ $? -ne 0 ]; then
-    echo "  ❌ [vault] Error al descifrar '$key'"
+    echo "    ❌ [vault] Error al descifrar '$key'"
     return 1
   fi
 

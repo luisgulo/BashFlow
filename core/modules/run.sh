@@ -34,9 +34,9 @@ run_task() {
 
 check_dependencies_run() {
   if ! command -v ssh &> /dev/null; then
-    echo "  ❌ [run] ssh no está disponible."
+    echo "    ❌ [run] ssh no está disponible."
     return 1
   fi
-  echo "  ✅ [run] ssh disponible."
+  echo "    ✅ [run] ssh disponible."
   return 0
 }

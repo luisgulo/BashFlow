@@ -23,7 +23,7 @@ package_task() {
   pkg_mgr=$(ssh "$host" "command -v apt-get || command -v apt || command -v dnf || command -v yum")
 
   if [ -z "$pkg_mgr" ]; then
-    echo "  ❌ [package] No se detectó gestor de paquetes compatible en el host."
+    echo "    ❌ [package] No se detectó gestor de paquetes compatible en el host."
     return 1
   fi
 
@@ -43,7 +43,7 @@ package_task() {
       fi
       ;;
     *)
-      echo "  ❌ [package] Gestor '$pkg_mgr' no soportado."
+      echo "    ❌ [package] Gestor '$pkg_mgr' no soportado."
       return 1
       ;;
   esac
@@ -71,7 +71,7 @@ package_apt() {
       ssh "$host" "$check_cmd && $upgrade_cmd || $install_cmd"
       ;;
     *)
-      echo "  ❌ [package] Estado '$state' no soportado para APT."
+      echo "    ❌ [package] Estado '$state' no soportado para APT."
       return 1
       ;;
   esac
@@ -99,7 +99,7 @@ package_rpm() {
       ssh "$host" "$check_cmd && $upgrade_cmd || $install_cmd"
       ;;
     *)
-      echo "  ❌ [package] Estado '$state' no soportado para RPM."
+      echo "    ❌ [package] Estado '$state' no soportado para RPM."
       return 1
       ;;
   esac
@@ -128,9 +128,9 @@ system_update_rpm() {
 
 check_dependencies_package() {
   if ! command -v ssh &> /dev/null; then
-    echo "  ❌ [package] ssh no está disponible."
+    echo "    ❌ [package] ssh no está disponible."
     return 1
   fi
-  echo "  ✅ [package] ssh disponible."
+  echo "    ✅ [package] ssh disponible."
   return 0
 }

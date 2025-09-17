@@ -56,9 +56,9 @@ api_task() {
 check_dependencies_api() {
   for cmd in curl jq xmllint; do
     if ! command -v "$cmd" &> /dev/null; then
-      echo "⚠️ [api] '$cmd' no disponible localmente. Se asumirá que existe en el host remoto."
+      echo "    ⚠️ [api] '$cmd' no disponible localmente. Se asumirá que existe en el host remoto."
     else
-      echo "✅ [api] '$cmd' disponible localmente."
+      echo "    ✅ [api] '$cmd' disponible localmente."
     fi
   done
   return 0

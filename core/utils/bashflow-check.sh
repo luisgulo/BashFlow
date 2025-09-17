@@ -35,10 +35,10 @@ check_global_tools() {
   local missing=0
   for tool in "${GLOBAL_TOOLS[@]}"; do
     if ! command -v "$tool" &> /dev/null; then
-      echo "❌ $tool no encontrado"
+      echo "  ❌ $tool no encontrado"
       missing=1
     else
-      echo "✅ $tool disponible"
+      echo "  ✅ $tool disponible"
     fi
   done
   return $missing
@@ -50,10 +50,10 @@ check_structure() {
   local missing=0
   for path in "${REQUIRED_PATHS[@]}"; do
     if [ ! -e "$path" ]; then
-      echo "❌ Falta: $path"
+      echo "  ❌ Falta: $path"
       missing=1
     else
-      echo "✅ Encontrado: $path"
+      echo "  ✅ Encontrado: $path"
     fi
   done
   return $missing
