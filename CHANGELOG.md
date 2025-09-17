@@ -10,6 +10,32 @@ This project follows the [Keep a Changelog](https://keepachangelog.com/es/1.0.0/
 
 ---
 
+## 🗂️ fs.sh — Versión 1.2
+
+### 🇪🇸 Mejoras añadidas
+- 📁 Soporte para múltiples ficheros, comodines (*, ?, [...]) y procesamiento remoto seguro. 
+
+### 🇬🇧 Improvements added
+- 📁 Support for multiple files, wildcards (*, ?, [...]) and secure remote processing.
+
+---
+
+## 🗂️ fs.sh — Versión 1.1
+
+### 🇪🇸 Mejoras añadidas
+- 📁 Soporte para múltiples ficheros mediante el argumento `files`, separado por comas.
+- 🔁 Acciones `move`, `rename`, `copy`, `delete` y `truncate` ahora aceptan listas de ficheros.
+- 🧠 Procesamiento seguro y ordenado de cada fichero, con mensajes individuales por operación.
+- 🧹 Se mantiene compatibilidad con operaciones unitarias (`src`, `dest`, `path`) para casos simples.
+
+### 🇬🇧 Improvements added
+- 📁 Added support for multiple files via the `files` argument (comma-separated).
+- 🔁 Actions `move`, `rename`, `copy`, `delete`, and `truncate` now accept file lists.
+- 🧠 Safe and structured processing of each file with individual operation feedback.
+- 🧹 Maintains compatibility with single-file operations (`src`, `dest`, `path`) for simple use cases.
+
+---
+
 ## 🔐 vault.sh — Versión 1.4
 
 ### 🇪🇸 Mejoras añadidas
