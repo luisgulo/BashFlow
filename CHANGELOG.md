@@ -10,6 +10,42 @@ This project follows the [Keep a Changelog](https://keepachangelog.com/es/1.0.0/
 
 ---
 
+## 🔐 vault.sh — Versión 1.4
+
+### 🇪🇸 Mejoras añadidas
+- ✏️ Acción `edit`: permite modificar secretos existentes
+- 🗑️ Acción `remove`: elimina secretos del vault
+- 👁️ Acción `show`: muestra el contenido descifrado
+- ✅ Acción `exists`: verifica si un secreto existe
+- 📤 Acción `export`: genera variables de entorno con todos los secretos
+
+### 🇬🇧 New features
+- ✏️ `edit` action: modify existing secrets
+- 🗑️ `remove` action: delete secrets from vault
+- 👁️ `show` action: display decrypted content
+- ✅ `exists` action: check if a secret exists
+- 📤 `export` action: output all secrets as environment variables
+
+
+---
+
+## 🔧 install.sh — Versión 1.1
+
+### 🇪🇸 Mejoras añadidas
+- 🛡️ Se preserva automáticamente el contenido de `core/vault/` si ya existe, evitando pérdida de secretos o configuraciones personalizadas durante reinstalaciones.
+- 📁 Se reorganiza la lógica de borrado para evitar eliminar el vault antes de copiar los nuevos archivos.
+- 📦 Se restaura el vault desde `/tmp/bashflow_vault_backup` tras la instalación.
+- 🧠 Se mantiene la instalación limpia y segura sin afectar datos sensibles.
+
+### 🇬🇧 Improvements added
+- 🛡️ Automatically preserves `core/vault/` content if it exists, preventing loss of secrets or custom configurations during reinstall.
+- 📁 Reorganized deletion logic to avoid removing the vault before copying new files.
+- 📦 Vault is restored from `/tmp/bashflow_vault_backup` after installation.
+- 🧠 Ensures clean and safe installation without affecting sensitive data.
+
+
+---
+
 ## 🔁 loop.sh — Versión 0.2
 
 ### 🇪🇸 Mejoras implementadas
