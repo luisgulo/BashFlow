@@ -1,0 +1,7 @@
+- name: Consultar estado
+  module: api
+  args:
+    method: get
+    url: https://api.example.com/status
+    headers: Authorization:Bearer abc123
+    parse: json

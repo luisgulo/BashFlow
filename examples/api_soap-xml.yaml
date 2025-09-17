@@ -1,0 +1,13 @@
+- name: Consulta SOAP
+  module: api
+  args:
+    method: soap
+    url: https://service.example.com/soap
+    headers: Content-Type:text/xml
+    body: |
+      <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+        <soapenv:Body>
+          <ns:getStatus/>
+        </soapenv:Body>
+      </soapenv:Envelope>
+    parse: xml

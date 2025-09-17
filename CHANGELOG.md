@@ -10,6 +10,25 @@ This project follows the [Keep a Changelog](https://keepachangelog.com/es/1.0.0/
 
 ---
 
+## 🌐 api.sh — Versión 1.0
+
+### 🇪🇸 Módulo nuevo
+- 🚀 Se incorpora `api.sh` como cliente declarativo para servicios REST y SOAP.
+- ✅ Soporte para métodos HTTP: `get`, `post`, `put`, `delete`, y `soap`.
+- 🧠 Parseo automático de respuestas en formato `json` (via `jq`) y `xml` (via `xmllint`).
+- 📦 Permite definir encabezados personalizados, cuerpo de petición y guardar la respuesta en fichero.
+- 🔐 Compatible con autenticación por token y servicios que no permiten acceso por SSH (routers, APIs externas, etc.).
+
+### 🇬🇧 New module
+- 🚀 Added `api.sh` as a declarative client for REST and SOAP services.
+- ✅ Supports HTTP methods: `get`, `post`, `put`, `delete`, and `soap`.
+- 🧠 Automatic response parsing in `json` (via `jq`) and `xml` (via `xmllint`).
+- 📦 Allows custom headers, request body, and saving response to file.
+- 🔐 Compatible with token-based authentication and non-SSH services (routers, external APIs, etc.).
+
+
+---
+
 ## 🗂️ fs.sh — Versión 1.2
 
 ### 🇪🇸 Mejoras añadidas
