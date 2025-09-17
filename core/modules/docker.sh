@@ -3,7 +3,7 @@
 # Module: docker
 # Description: Gestiona contenedores Docker (run, stop, remove, build, exec)
 # Author: Luis GuLo
-# Version: 1.1
+# Version: 1.2
 # Dependencies: ssh, docker
 # Usage:
 #   docker_task "$host" "$action" "$name" "$image" "$cmd" "$dockerfile" "$context" "$become"
@@ -18,13 +18,17 @@ docker_task() {
   local path="${args[path]}"
   local command="${args[command]}"
   local become="${args[become]}"
+  local detach="${args[detach]:-true}"
 
   local prefix=""
   [ "$become" = "true" ] && prefix="sudo"
 
+  local detached="-d"
+  [ "$detach" = "false" ] && detached=""
+
   case "$action" in
     present)
-      ssh "$host" "$prefix docker ps -a --format '{{.Names}}' | grep -q '^$name$' || $prefix docker run -d --name '$name' '$image'"
+      ssh "$host" "$prefix docker ps -a --format '{{.Names}}' | grep -q '^$name$' || $prefix docker run $detached --name '$name' '$image'"
       ;;
     stopped)
       ssh "$host" "$prefix docker ps --format '{{.Names}}' | grep -q '^$name$' && $prefix docker stop '$name'"
