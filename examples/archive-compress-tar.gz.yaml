@@ -1,0 +1,7 @@
+- name: Comprimir logs
+  module: archive
+  args:
+    action: compress
+    format: tar
+    files: /var/log/syslog,/var/log/auth.log
+    output: /tmp/logs.tar.gz

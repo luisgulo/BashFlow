@@ -1,0 +1,7 @@
+- name: Extraer backup
+  module: archive
+  args:
+    action: extract
+    format: tar
+    archive: /tmp/backup.tar.gz
+    dest: /opt/restore
