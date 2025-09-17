@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # License: GPLv3
 # Author: Luis GuLo
+# Version: 1.1
 
 set -e
 
