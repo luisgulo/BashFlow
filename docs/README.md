@@ -1,1 +1,1 @@
-# [INDICE / INDEX](index.md)
+## [Ir al Índice / Go to Index](index.md)
