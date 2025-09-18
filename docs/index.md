@@ -20,6 +20,8 @@ Bienvenido a la documentación oficial de **BashFlow**, el sistema de automatiza
 
 ## 📦 Módulos disponibles
 
+Consulte la [lista de modulos autogenerada](modules-list.md) 
+
 - [`facts`](modules/facts.md) — inventario del sistema
 - [`setup`](modules/setup.md) — configuración base
 - [`ntp`](modules/ntp.md) — sincronización horaria
@@ -87,6 +89,8 @@ Welcome to the official documentation for **BashFlow**, the declarative automati
 - [`vars/`](inventory/vars.md) — global, group and host variables
 
 ## 📦 Available Modules
+
+See the [auto-generated list of modules](modules-list.md)
 
 - [`facts`](modules/facts.md) — system inventory
 - [`setup`](modules/setup.md) — base configuration

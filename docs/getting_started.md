@@ -106,6 +106,15 @@ bashflow -f facts_test.yaml -h mi_equipo
 
 No necesitas estar en el directorio del proyecto.
 
+
+### 📎 Verificación
+
+```
+bashflow version
+bashflow-check
+```
+
+---
 ---
 
 
@@ -217,3 +226,12 @@ bashflow -f facts_test.yaml -h my_machine
 ```
 
 You don’t need to be inside the project directory.
+
+### 📎 Verification
+
+```
+bashflow version
+bashflow-check
+```
+
+
