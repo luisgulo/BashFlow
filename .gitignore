@@ -1,1 +1,4 @@
+# Ignorar directorio Notas
 /NOTAS/
+# Ignorar ficheros .NO
+*.NO
