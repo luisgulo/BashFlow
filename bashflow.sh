@@ -2,19 +2,15 @@
 # BashFlow Playbook Runner
 # License: GPLv3
 # Author: Luis GuLo
-# Version: 1.3
+# Version: 1.3.6
 
 set -e
 
-# ─────────────────────────────────────────────
 # 🧭 Detección de la raíz del proyecto
-# ─────────────────────────────────────────────
 PROJECT_ROOT="${BASHFLOW_HOME:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
-INVENTORY="$PROJECT_ROOT/hosts.yaml"
+INVENTORY="$PROJECT_ROOT/core/inventory/hosts.yaml"
 
-# ─────────────────────────────────────────────
 # 🔧 Configuración
-# ─────────────────────────────────────────────
 PLAYBOOK=""
 HOST=""
 GROUP=""
@@ -28,9 +24,7 @@ get_version() {
   echo "Ubicación: $script_path"
 }
 
-# ─────────────────────────────────────────────
 # 📦 Parsing de argumentos
-# ─────────────────────────────────────────────
 if [[ "$1" == "version" ]]; then
   get_version
   exit 0
@@ -61,9 +55,7 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-# ─────────────────────────────────────────────
 # ✅ Validaciones iniciales
-# ─────────────────────────────────────────────
 if [ -z "$PLAYBOOK" ]; then
   echo "❌ Playbook no especificado. Usa -f <archivo.yaml>"
   exit 1
@@ -79,9 +71,7 @@ if [ -z "$HOST" ] && [ -z "$GROUP" ]; then
   exit 1
 fi
 
-# ─────────────────────────────────────────────
 # 📖 Cargar tareas desde YAML
-# ─────────────────────────────────────────────
 TASKS_JSON=$(yq '.' "$PLAYBOOK" | jq '.tasks')
 if [ "$TASKS_JSON" == "null" ]; then
   echo "❌ No se encontraron tareas en el playbook."
@@ -90,9 +80,7 @@ fi
 
 NUM_TASKS=$(echo "$TASKS_JSON" | jq 'length')
 
-# ─────────────────────────────────────────────
 # 🔁 Resolución de hosts
-# ─────────────────────────────────────────────
 if [ -n "$GROUP" ]; then
   HOSTS=$(yq ".all.children.\"$GROUP\".hosts | keys | .[]" "$INVENTORY")
   if [ -z "$HOSTS" ]; then
@@ -103,13 +91,13 @@ else
   HOSTS="$HOST"
 fi
 
-# ─────────────────────────────────────────────
 # 🔁 Ejecutar tareas por host
-# ─────────────────────────────────────────────
 for CURRENT_HOST in $HOSTS; do
-  HOST_IP=$(yq ".all.hosts.\"$CURRENT_HOST\".ansible_host" "$INVENTORY")
-  BECOME=$(yq ".all.hosts.\"$CURRENT_HOST\".become" "$INVENTORY")
-  LABEL=$(yq ".all.hosts.\"$CURRENT_HOST\".label" "$INVENTORY")
+  HOST_IP=$(yq ".all.hosts.\"$CURRENT_HOST\".ansible_host" "$INVENTORY" | sed 's/^"\(.*\)"$/\1/')
+  LABEL=$(yq ".all.hosts.\"$CURRENT_HOST\".label" "$INVENTORY" | sed 's/^"\(.*\)"$/\1/')
+
+  [[ "$HOST_IP" == "null" || -z "$HOST_IP" ]] && HOST_IP="$CURRENT_HOST"
+  [[ "$LABEL" == "null" || -z "$LABEL" ]] && LABEL="$CURRENT_HOST"
 
   echo "🖥️ Host: $CURRENT_HOST ($HOST_IP)"
 
@@ -134,7 +122,13 @@ for CURRENT_HOST in $HOSTS; do
       value=$(echo "$ARGS" | jq -r ".[\"$key\"]")
       value="${value//\{\{ name \}\}/$CURRENT_HOST}"
       value="${value//\{\{ label \}\}/$LABEL}"
+      value=$(echo "$value" | sed 's/^"\(.*\)"$/\1/')
       ARG_VALUES+=("${key}=${value}")
+    done
+
+    # Encapsular argumentos con espacios
+    for i in "${!ARG_VALUES[@]}"; do
+      ARG_VALUES[$i]="\"${ARG_VALUES[$i]}\""
     done
 
     if declare -f "${MODULE}_task" > /dev/null; then

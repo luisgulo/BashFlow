@@ -10,6 +10,45 @@ This project follows the [Keep a Changelog](https://keepachangelog.com/es/1.0.0/
 
 ---
 
+### ✅ Correcciones funcionales
+
+- 🔧 **Eliminación de comillas dobles en `HOST_IP`**  
+  Se corrige la encapsulación incorrecta que provocaba errores SSH como `hostname contains invalid characters` al usar alias con `ansible_host`.
+
+- 🔧 **Limpieza de valores YAML (`label`, `ansible_host`)**  
+  Se aplica `sed` para eliminar comillas dobles heredadas de `yq`, evitando errores en sustituciones y trazas.
+
+- 🔧 **Resolución robusta de alias vs IP directa**  
+  Se garantiza que `-h imac.casa` y `-h 192.168.1.117` funcionen de forma equivalente, sin romper la línea SSH.
+
+---
+
+### 🧠 Mejoras de trazabilidad
+
+- 🐛 **Trazas limpias en modo `--debug`**  
+  Se muestra la línea SSH real sin comillas ni ambigüedades, facilitando la depuración precisa.
+
+- 📌 **Sustitución segura de `{{ name }}` y `{{ label }}`**  
+  Se refuerza la interpolación de variables en argumentos, con limpieza previa para evitar dobles comillas.
+
+---
+
+### 🧩 Compatibilidad y estabilidad
+
+- 🧪 Compatible con inventarios que usen alias DNS (`imac.casa`) o nombres locales (`imac`)
+- 🧪 Compatible con ejecución por grupo (`-g oficina`) o por host (`-h dell`)
+- 🧪 Compatible con módulos que usen `host_label`, `output`, `append`, etc.
+
+---
+
+### 📁 Archivos afectados
+
+- `core/bashflow.sh` → actualizado a v1.3.6  
+- `core/inventory/hosts.yaml` → se recomienda usar alias DNS consistentes (`imac.casa`)  
+- `core/modules/facts.sh` → sin cambios funcionales, pero compatible con la nueva limpieza de host
+
+---
+
 ## 🌐 api.sh — Versión 1.0
 
 ### 🇪🇸 Módulo nuevo

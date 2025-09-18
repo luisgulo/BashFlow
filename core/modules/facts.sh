@@ -3,8 +3,7 @@
 # Description: Extrae información del sistema con opciones de formato, filtrado y salida
 # License: GPLv3
 # Author: Luis GuLo
-# Version: 1.3
-# Dependencies: lscpu, ip, free, lsblk, uname, hostnamectl, jq
+# Version: 1.3.2
 
 facts_task() {
   local host="$1"; shift
@@ -13,6 +12,7 @@ facts_task() {
   format="plain"
   append="false"
 
+  # 🧩 Parseo de argumentos
   for arg in "$@"; do
     key="${arg%%=*}"
     value="${arg#*=}"
@@ -25,11 +25,24 @@ facts_task() {
     esac
   done
 
+  # 🛡️ Validación defensiva
+  if [[ -z "$host_label" ]]; then
+    host_label="$host"
+  fi
+
+  [[ "$DEBUG" == "true" ]] && echo "🔍 [facts] host_label='$host_label' format='$format' output='$output'"
+
   local prefix=""
   [[ "$host" != "localhost" ]] && prefix="ssh $host"
+  
+
+  [[ "$DEBUG" == "true" ]] && echo "🔍 Línea SSH: $prefix bash --noprofile --norc"
+  [[ "$DEBUG" == "true" ]] && echo "🔍 Ejecutando bloque remoto en $host..."
 
   local raw
-  raw=$($prefix bash <<'EOF'
+  #raw=$($prefix bash <<'EOF'
+  raw=$($prefix bash --noprofile --norc <<'EOF'
+    cd /tmp || cd ~
     echo "hostname=$(hostname)"
     lscpu | awk '/^CPU\(s\):/ {print "cpu_count="$2}'
     free -m | awk '/Mem:/ {print "ram_total_mb="$2}'
@@ -51,10 +64,8 @@ facts_task() {
 EOF
 )
 
-  # Filtrado por campo
   [[ -n "$field" ]] && raw=$(echo "$raw" | grep "^$field=")
 
-  # Agrupación de particiones
   local partitions=()
   local facts=()
   while IFS= read -r line; do
@@ -65,11 +76,10 @@ EOF
     fi
   done <<< "$raw"
 
-  # Formateo
   local formatted=""
   case "$format" in
     plain)
-      [[ -n "$host_label" ]] && formatted+="Host: $host_label\n"
+      formatted+="Host: $host_label\n"
       for f in "${facts[@]}"; do
         key="${f%%=*}"; val="${f#*=}"
         formatted+="$key: $val\n"
@@ -82,7 +92,7 @@ EOF
       fi
       ;;
     md)
-      [[ -n "$host_label" ]] && formatted+="### $host_label\n"
+      formatted+="### $host_label\n"
       for f in "${facts[@]}"; do
         key="${f%%=*}"; val="${f#*=}"
         formatted+="- **$key:** $val\n"
@@ -126,7 +136,6 @@ EOF
       ;;
   esac
 
-  # Salida
   if [[ -n "$output" ]]; then
     if [[ "$append" == "true" ]]; then
       echo -e "$formatted" >> "$output"
@@ -142,9 +151,9 @@ EOF
 check_dependencies_facts() {
   for cmd in lscpu ip free lsblk uname hostnamectl; do
     if ! command -v "$cmd" &> /dev/null; then
-      echo "⚠️ [facts] '$cmd' no disponible localmente. Se asumirá que existe en el host remoto."
+      echo "    ⚠️ [facts] '$cmd' no disponible localmente. Se asumirá que existe en el host remoto."
     else
-      echo "✅ [facts] '$cmd' disponible localmente."
+      echo "    ✅ [facts] '$cmd' disponible localmente."
     fi
   done
   return 0
