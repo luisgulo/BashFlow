@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # License: GPLv3
 # Author: Luis GuLo
-# Version: 1.1
+# Version: 1.2
 
 set -e
 
@@ -33,6 +33,12 @@ if [[ -d "$INSTALL_DIR" ]]; then
     mv "$INSTALL_DIR/core/vault" /tmp/bashflow_vault_backup
   fi
 
+  # 🛡️ Preservar inventory si existe
+  if [[ -d "$INSTALL_DIR/core/inventory" ]]; then
+    echo "📦 Preservando inventory existente..."
+    mv "$INSTALL_DIR/core/inventory" /tmp/bashflow_inventory_backup
+  fi
+
   echo "🧹 Eliminando instalación previa..."
   rm -rf "$INSTALL_DIR"
   mkdir -p "$INSTALL_DIR"
@@ -57,6 +63,13 @@ if [[ -d "/tmp/bashflow_vault_backup" ]]; then
   echo "🔁 Restaurando vault..."
   rm -rf "$INSTALL_DIR/core/vault"
   mv /tmp/bashflow_vault_backup "$INSTALL_DIR/core/vault"
+fi
+
+# 🔁 Restaurar inventory si fue preservado
+if [[ -d "/tmp/bashflow_inventory_backup" ]]; then
+  echo "🔁 Restaurando inventory..."
+  rm -rf "$INSTALL_DIR/core/inventory"
+  mv /tmp/bashflow_inventory_backup "$INSTALL_DIR/core/inventory"
 fi
 
 # 🔗 Crear symlinks en el PATH
