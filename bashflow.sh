@@ -93,6 +93,9 @@ fi
 
 # 🔁 Ejecutar tareas por host
 for CURRENT_HOST in $HOSTS; do
+  # Limpieza de comillas
+  CURRENT_HOST=$(echo "$CURRENT_HOST" | sed 's/^"\(.*\)"$/\1/')
+
   HOST_IP=$(yq ".all.hosts.\"$CURRENT_HOST\".ansible_host" "$INVENTORY" | sed 's/^"\(.*\)"$/\1/')
   LABEL=$(yq ".all.hosts.\"$CURRENT_HOST\".label" "$INVENTORY" | sed 's/^"\(.*\)"$/\1/')
 
